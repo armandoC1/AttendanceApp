@@ -1,0 +1,65 @@
+<html lang="en" xmlns:layout="htt://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div layout:fragment="content">
+
+    <!-- mostrar mensaje de confirmacion exitoso -->
+    <div th:if="${msg != null}">
+        <script>
+            Swal.fire({
+                title: "Confirmacion",
+                text: '[[${msg}]]',
+                icon: "success"
+            });
+        </script>
+    </div>
+
+
+    <!-- mostrar mensaje de error si se neceitarra -->
+    <div th:if="${error != null}">
+        <script>
+            Swal.fire({
+                title: "Error",
+                text: '[[${error}]]',
+                icon: "error"
+            });
+        </script>
+    </div>
+
+
+    <h1>Listado de grupos</h1>
+    <a th:href="@{/grupos/create}" class="btn btn-outline-primary">Nuevo grupo</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${grupos}">
+                <td th:text="${item.id}"></td>
+                <td th:text="${item.nombre}"></td>
+                <td th:text="${item.descripcion}"></td>
+                <td>
+                    <a th:href="@{/grupos/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a>
+                    <a th:href="@{/grupos/edit/{id} (id = ${item.id})  }" class="btn btn-outline-info">Editar</a>
+                    <a th:href="@{/grupos/remove/{id} (id = ${item.id})  }" class="btn btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:each="pageNumber : ${pageNumbers}">
+                <a class="page-link" th:text="${pageNumber}" th:href="@{|/grupos?page=${pageNumber}|}"></a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+</html>

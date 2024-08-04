@@ -1,0 +1,23 @@
+<html lang="en" xmlns:layout="htt://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<div layout:fragment="content">
+    <h1>Eliminar grupo</h1>
+    <div>
+        <hr>
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10" th:text="${grupo.id}"></dd>
+
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10" th:text="${grupo.nombre}"></dd>
+
+        <dt class="col-sm-2">Descripcion</dt>
+        <dd class="col-sm-10" th:text="${grupo.descripcion}"></dd>
+
+        <form th:action="@{/grupos/delete}" method="post">
+            <input type="hidden" name="Id" th:value="${grupo.id}">
+            <input type="submit" value="Eliminar" class="btn btn-danger"> |
+            <a th:href="@{/grupos}">Regresar</a>
+        </form>
+    </div>
+</div>
