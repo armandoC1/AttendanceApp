@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Editar asignación Docente-Grupo</title>
+</head>
+
+<div layout:fragment="content">
+    <h1>Editar asignación Docente-Grupo</h1>
+
+    <form th:action="@{/asignaciones/update}" method="post">
+        <input type="hidden" name="id" th:value="${docenteGrupo.id}">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="docente">Docente:</label>
+                    <select id="docente" name="docenteId" class="form-control" required>
+                        <option th:each="docente : ${docentes}"
+                                th:value="${docente.id}"
+                                th:text="|${docente.nombre} ${docente.apellido}|"
+                                th:selected="${docente.id} == ${docenteGrupo.docente.id}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="grupo">Grupo:</label>
+                    <select id="grupo" name="grupoId" class="form-control" required>
+                        <option th:each="grupo : ${grupos}"
+                                th:value="${grupo.id}"
+                                th:text="${grupo.nombre}"
+                                th:selected="${grupo.id} == ${docenteGrupo.grupo.id}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="anio">Año:</label>
+                    <input type="number" class="form-control" id="anio" name="anio" th:value="${docenteGrupo.anio}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="ciclo">Ciclo:</label>
+                    <input type="text" class="form-control" id="ciclo" name="ciclo" th:value="${docenteGrupo.ciclo}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-primary">Guardar cambios</button>
+                    <a th:href="@{/asignaciones}" class="btn btn-outline-secondary">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

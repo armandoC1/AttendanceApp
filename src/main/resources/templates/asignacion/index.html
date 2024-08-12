@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Listado de DocentesGrupos</title>
+    <!-- Incluye SweetAlert y Bootstrap en el header si no están ya incluidos -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <!-- mensajes de confirmacion -->
+    <div th:if="${msg != null}">
+        <script>
+            Swal.fire({
+                title: "Confirmación",
+                text: '[[${msg}]]',
+                icon: "success"
+            });
+        </script>
+    </div>
+    <!-- mostrar mensaje en caso de error -->
+    <div th:if="${error != null}">
+        <script>
+            Swal.fire({
+                title: "Error",
+                text: '[[${error}]]',
+                icon: "error"
+            });
+        </script>
+    </div>
+
+    <h1>Listado de asignaciones Docente-Grupo</h1>
+    <a th:href="@{/asignaciones/create}" class="btn btn-outline-primary">Nueva asignación</a>
+
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Año</th>
+            <th>Ciclo</th>
+            <th>Docente</th>
+            <th>Escuela</th>
+            <th>Grupo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${asignaciones.content}"> <!-- Acceder al contenido de la página -->
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.anio}"></td>
+            <td th:text="${item.ciclo}"></td>
+            <td th:text="|${item.docente.nombre} ${item.docente.apellido}|"></td>
+            <td th:text="${item.docente.escuela}"></td>
+            <td th:text="${item.grupo.nombre}"></td>
+            <td>
+                <a th:href="@{/asignaciones/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a>
+                <a th:href="@{/asignaciones/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a>
+                <a th:href="@{/asignaciones/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Paginación -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:each="pageNumber : ${pageNumber}">
+                <a class="page-link" th:text="${pageNumber}" th:href="@{|/asignaciones?page=${pageNumber - 1}&size=${asignaciones.size}|}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
